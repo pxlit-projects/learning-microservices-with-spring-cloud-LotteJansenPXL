@@ -1,6 +1,7 @@
 package be.pxl.services.controller;
 
 import be.pxl.services.domain.Product;
+import be.pxl.services.domain.dto.CategoryRequest;
 import be.pxl.services.domain.dto.ProductRequest;
 import be.pxl.services.domain.dto.ProductResponse;
 import be.pxl.services.services.IProductService;
@@ -32,11 +33,27 @@ public class ProductController {
         productService.addProduct(productRequest);
     }
 
-    @PutMapping
+    @PostMapping("/{productId}/removeproduct")
     @ResponseStatus(HttpStatus.OK)
-    public void updateProduct(@RequestBody ProductRequest productRequest) {
-        productService.updateProduct(productRequest);
+    public void removeProduct(@PathVariable Long productId) {
+        productService.removeProduct(productId);
     }
 
+    @PutMapping("/{productId}/editproduct")
+    @ResponseStatus(HttpStatus.OK)
+    public void updateProduct(@PathVariable Long productId, @RequestBody ProductRequest productRequest) {
+        productService.updateProduct(productId, productRequest);
+    }
 
+    @PutMapping("/{productId/addcategory")
+    @ResponseStatus(HttpStatus.OK)
+    public void addCategory(@PathVariable Long productId, @RequestBody CategoryRequest categoryRequest) {
+        productService.addCategory(productId, categoryRequest);
+    }
+
+    @PutMapping("/{productId}/removecategory")
+    @ResponseStatus(HttpStatus.OK)
+    public void removeCategory(@PathVariable Long productId, @RequestBody CategoryRequest categoryRequest) {
+        productService.removeCategory(productId, categoryRequest);
+    }
 }
