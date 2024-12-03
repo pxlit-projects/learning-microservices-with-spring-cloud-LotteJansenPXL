@@ -1,5 +1,6 @@
 package be.pxl.services.domain.dto;
 
+import be.pxl.services.domain.Product;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -13,5 +14,5 @@ import java.util.List;
 public class ShoppingCartRequest {
     private Long id;
     private Long customerId;
-    private List<Product> productIds;
+    private List<Product> products;
 }

@@ -4,12 +4,14 @@ import be.pxl.services.domain.Product;
 import be.pxl.services.domain.ShoppingCart;
 import be.pxl.services.domain.dto.ShoppingCartResponse;
 import be.pxl.services.services.IShoppingCartService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/shoppingcart")
+@RequiredArgsConstructor
 public class ShoppingCartController {
     private final IShoppingCartService shoppingCartService;
 
