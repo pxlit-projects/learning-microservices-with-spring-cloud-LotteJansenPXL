@@ -1,10 +1,10 @@
 package be.pxl.services.services;
 
-import be.pxl.services.client.NotificationClient;
+import be.pxl.services.client.LogbookClient;
 import be.pxl.services.domain.Category;
 import be.pxl.services.domain.Product;
 import be.pxl.services.domain.dto.CategoryRequest;
-import be.pxl.services.domain.dto.NotificationRequest;
+import be.pxl.services.domain.dto.LogbookRequest;
 import be.pxl.services.domain.dto.ProductRequest;
 import be.pxl.services.domain.dto.ProductResponse;
 import be.pxl.services.repository.ProductRepository;
@@ -12,6 +12,7 @@ import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,7 +21,7 @@ import java.util.List;
 @NoArgsConstructor(force = true)
 public class ProductService implements IProductService {
     private final ProductRepository productRepository;
-    private final NotificationClient notificationClient;
+    private final LogbookClient logbookClient;
 
     public List<ProductResponse> getAllProducts() {
         return productRepository.findAll().stream().map(p -> mapToProductResponse(p)).toList();
@@ -34,11 +35,12 @@ public class ProductService implements IProductService {
                 .build();
         productRepository.save(product);
 
-        NotificationRequest notificationRequest = NotificationRequest.builder()
+        LogbookRequest logbookRequest = LogbookRequest.builder()
                 .message("Product added")
                 .sender("product-service")
+                .timestamp(LocalDateTime.now())
                 .build();
-        notificationClient.sendNotification(notificationRequest);
+        logbookClient.sendNotification(logbookRequest);
     }
 
     @Override
@@ -48,11 +50,12 @@ public class ProductService implements IProductService {
         product.setDescription(productRequest.getDescription());
         productRepository.save(product);
 
-        NotificationRequest notificationRequest = NotificationRequest.builder()
+        LogbookRequest logbookRequest = LogbookRequest.builder()
                 .message("Product updated")
                 .sender("product-service")
+                .timestamp(LocalDateTime.now())
                 .build();
-        notificationClient.sendNotification(notificationRequest);
+        logbookClient.sendNotification(logbookRequest);
     }
 
     @Override
@@ -65,11 +68,12 @@ public class ProductService implements IProductService {
                 .build();
         product.addCategory(category);
 
-        NotificationRequest notificationRequest = NotificationRequest.builder()
+        LogbookRequest logbookRequest = LogbookRequest.builder()
                 .message("Added category to product")
                 .sender("product-service")
+                .timestamp(LocalDateTime.now())
                 .build();
-        notificationClient.sendNotification(notificationRequest);
+        logbookClient.sendNotification(logbookRequest);
     }
 
     @Override
@@ -77,11 +81,12 @@ public class ProductService implements IProductService {
         Product product = productRepository.findById(productId).orElse(null);
         if (product != null) {
             productRepository.delete(product);
-            NotificationRequest notificationRequest = NotificationRequest.builder()
+            LogbookRequest logbookRequest = LogbookRequest.builder()
                     .message("Removed product")
                     .sender("product-service")
+                    .timestamp(LocalDateTime.now())
                     .build();
-            notificationClient.sendNotification(notificationRequest);
+            logbookClient.sendNotification(logbookRequest);
         }
     }
 
@@ -98,11 +103,12 @@ public class ProductService implements IProductService {
             if(productCategories.contains(category)) {
                 productCategories.remove(category);
                 product.setCategories(productCategories);
-                NotificationRequest notificationRequest = NotificationRequest.builder()
+                LogbookRequest logbookRequest = LogbookRequest.builder()
                         .message("Removed category from product")
                         .sender("product-service")
+                        .timestamp(LocalDateTime.now())
                         .build();
-                notificationClient.sendNotification(notificationRequest);
+                logbookClient.sendNotification(logbookRequest);
             }
         }
     }

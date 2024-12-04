@@ -1,9 +1,9 @@
 package be.pxl.services.services;
 
-import be.pxl.services.client.NotificationClient;
+import be.pxl.services.client.LogbookClient;
 import be.pxl.services.domain.Product;
 import be.pxl.services.domain.ShoppingCart;
-import be.pxl.services.domain.dto.NotificationRequest;
+import be.pxl.services.domain.dto.LogbookRequest;
 import be.pxl.services.domain.dto.ShoppingCartResponse;
 import be.pxl.services.repository.ProductRepository;
 import be.pxl.services.repository.ShoppingCartRepository;
@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -19,7 +20,7 @@ import java.util.List;
 public class ShoppingCartService implements IShoppingCartService {
     private final ShoppingCartRepository shoppingCartRepository;
     private final ProductRepository productRepository;
-    private final NotificationClient notificationClient;
+    private final LogbookClient logbookClient;
 
     @Override
     public ShoppingCartResponse getShoppingCart(Long id) {
@@ -37,11 +38,12 @@ public class ShoppingCartService implements IShoppingCartService {
         ShoppingCart shoppingCart = shoppingCartRepository.findById(shoppingcartId).orElse(null);
         shoppingCart.addProductId(product);
         shoppingCartRepository.save(shoppingCart);
-        NotificationRequest notificationRequest = NotificationRequest.builder()
+        LogbookRequest logbookRequest = LogbookRequest.builder()
                 .message("Shoppingcart added")
                 .sender("shoppingcart-service")
+                .timestamp(LocalDateTime.now())
                 .build();
-        notificationClient.sendNotification(notificationRequest);
+        logbookClient.sendNotification(logbookRequest);
     }
 
     @Override
@@ -53,11 +55,12 @@ public class ShoppingCartService implements IShoppingCartService {
             if(products.contains(product)) {
                 products.remove(product);
                 shoppingCartRepository.save(shoppingCart);
-                NotificationRequest notificationRequest = NotificationRequest.builder()
+                LogbookRequest logbookRequest = LogbookRequest.builder()
                         .message("Removed product from shoppingcart")
                         .sender("shoppingcart-service")
+                        .timestamp(LocalDateTime.now())
                         .build();
-                notificationClient.sendNotification(notificationRequest);
+                logbookClient.sendNotification(logbookRequest);
             }
         }
     }
