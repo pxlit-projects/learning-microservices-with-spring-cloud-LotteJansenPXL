@@ -1,7 +1,9 @@
 package be.pxl.services.services;
 
+import be.pxl.services.client.NotificationClient;
 import be.pxl.services.domain.Product;
 import be.pxl.services.domain.ShoppingCart;
+import be.pxl.services.domain.dto.NotificationRequest;
 import be.pxl.services.domain.dto.ShoppingCartResponse;
 import be.pxl.services.repository.ProductRepository;
 import be.pxl.services.repository.ShoppingCartRepository;
@@ -17,6 +19,8 @@ import java.util.List;
 public class ShoppingCartService implements IShoppingCartService {
     private final ShoppingCartRepository shoppingCartRepository;
     private final ProductRepository productRepository;
+    private final NotificationClient notificationClient;
+
     @Override
     public ShoppingCartResponse getShoppingCart(Long id) {
         ShoppingCart shoppingCart = shoppingCartRepository.findById(id).orElse(null);
@@ -33,6 +37,11 @@ public class ShoppingCartService implements IShoppingCartService {
         ShoppingCart shoppingCart = shoppingCartRepository.findById(shoppingcartId).orElse(null);
         shoppingCart.addProductId(product);
         shoppingCartRepository.save(shoppingCart);
+        NotificationRequest notificationRequest = NotificationRequest.builder()
+                .message("Shoppingcart added")
+                .sender("shoppingcart-service")
+                .build();
+        notificationClient.sendNotification(notificationRequest);
     }
 
     @Override
@@ -44,6 +53,11 @@ public class ShoppingCartService implements IShoppingCartService {
             if(products.contains(product)) {
                 products.remove(product);
                 shoppingCartRepository.save(shoppingCart);
+                NotificationRequest notificationRequest = NotificationRequest.builder()
+                        .message("Removed product from shoppingcart")
+                        .sender("shoppingcart-service")
+                        .build();
+                notificationClient.sendNotification(notificationRequest);
             }
         }
     }

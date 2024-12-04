@@ -1,8 +1,10 @@
 package be.pxl.services.services;
 
+import be.pxl.services.client.NotificationClient;
 import be.pxl.services.domain.Category;
 import be.pxl.services.domain.Product;
 import be.pxl.services.domain.dto.CategoryRequest;
+import be.pxl.services.domain.dto.NotificationRequest;
 import be.pxl.services.domain.dto.ProductRequest;
 import be.pxl.services.domain.dto.ProductResponse;
 import be.pxl.services.repository.ProductRepository;
@@ -18,6 +20,7 @@ import java.util.List;
 @NoArgsConstructor(force = true)
 public class ProductService implements IProductService {
     private final ProductRepository productRepository;
+    private final NotificationClient notificationClient;
 
     public List<ProductResponse> getAllProducts() {
         return productRepository.findAll().stream().map(p -> mapToProductResponse(p)).toList();
@@ -30,6 +33,12 @@ public class ProductService implements IProductService {
                 .description(productRequest.getDescription())
                 .build();
         productRepository.save(product);
+
+        NotificationRequest notificationRequest = NotificationRequest.builder()
+                .message("Product added")
+                .sender("product-service")
+                .build();
+        notificationClient.sendNotification(notificationRequest);
     }
 
     @Override
@@ -38,6 +47,12 @@ public class ProductService implements IProductService {
         product.setName(productRequest.getName());
         product.setDescription(productRequest.getDescription());
         productRepository.save(product);
+
+        NotificationRequest notificationRequest = NotificationRequest.builder()
+                .message("Product updated")
+                .sender("product-service")
+                .build();
+        notificationClient.sendNotification(notificationRequest);
     }
 
     @Override
@@ -49,6 +64,12 @@ public class ProductService implements IProductService {
                 .id(categoryRequest.getId())
                 .build();
         product.addCategory(category);
+
+        NotificationRequest notificationRequest = NotificationRequest.builder()
+                .message("Added category to product")
+                .sender("product-service")
+                .build();
+        notificationClient.sendNotification(notificationRequest);
     }
 
     @Override
@@ -56,6 +77,11 @@ public class ProductService implements IProductService {
         Product product = productRepository.findById(productId).orElse(null);
         if (product != null) {
             productRepository.delete(product);
+            NotificationRequest notificationRequest = NotificationRequest.builder()
+                    .message("Removed product")
+                    .sender("product-service")
+                    .build();
+            notificationClient.sendNotification(notificationRequest);
         }
     }
 
@@ -72,6 +98,11 @@ public class ProductService implements IProductService {
             if(productCategories.contains(category)) {
                 productCategories.remove(category);
                 product.setCategories(productCategories);
+                NotificationRequest notificationRequest = NotificationRequest.builder()
+                        .message("Removed category from product")
+                        .sender("product-service")
+                        .build();
+                notificationClient.sendNotification(notificationRequest);
             }
         }
     }
