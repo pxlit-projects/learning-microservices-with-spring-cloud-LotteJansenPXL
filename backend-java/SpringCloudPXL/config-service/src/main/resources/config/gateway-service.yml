@@ -1,0 +1,44 @@
+port: 8083
+
+spring:
+  cloud:
+    gateway:
+      #      default-filters:
+      #      - DedupeResponseHeader=Access-Control-Allow-Credentials Access-Control-Allow-Origin
+      discovery:
+        locator:
+          enabled: true
+      globalcors:
+        corsConfigurations:
+          '[/**]':
+            allowedOrigins:
+              - "*"
+            allowedMethods:
+              - "*"
+            allowedHeaders:
+              - "*"
+            allowCredentials: false
+      routes:
+        - id: productcatalog-service
+          uri: lb://productcatalog-service
+          predicates:
+            - Path=/productcatalog/**
+          filters:
+            - RewritePath=/productcatalog/(?<path>.*), /$\{path}
+        - id: shoppingcart-service
+          uri: lb://shoppingcart-service
+          predicates:
+            - Path=/shoppingcart/**
+          filters:
+            - RewritePath=/shoppingcart/(?<path>.*), /$\{path}
+        - id: notification-service
+          uri: lb://notification-service
+          predicates:
+            - Path=/notification/**
+          filters:
+            - RewritePath=/notification/(?<path>.*), /$\{path}
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8061/eureka/
