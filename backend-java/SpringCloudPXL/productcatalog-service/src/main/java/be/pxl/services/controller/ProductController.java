@@ -5,6 +5,7 @@ import be.pxl.services.domain.dto.CategoryRequest;
 import be.pxl.services.domain.dto.ProductRequest;
 import be.pxl.services.domain.dto.ProductResponse;
 import be.pxl.services.services.IProductService;
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,13 +15,11 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/product")
-//@RequiredArgsConstructor
+@RequiredArgsConstructor
+@NoArgsConstructor(force = true)
 public class ProductController {
 
     private final IProductService productService;
-    public ProductController(IProductService productService) {
-        this.productService = productService;
-    }
 
     @GetMapping
     public ResponseEntity<List<ProductResponse>> getAllProducts() {

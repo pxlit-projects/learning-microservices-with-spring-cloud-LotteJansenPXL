@@ -6,6 +6,7 @@ import be.pxl.services.domain.dto.CategoryRequest;
 import be.pxl.services.domain.dto.ProductRequest;
 import be.pxl.services.domain.dto.ProductResponse;
 import be.pxl.services.repository.ProductRepository;
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -13,12 +14,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-//@RequiredArgsConstructor
+@RequiredArgsConstructor
+@NoArgsConstructor(force = true)
 public class ProductService implements IProductService {
     private final ProductRepository productRepository;
-    public ProductService(ProductRepository productRepository) {
-        this.productRepository = productRepository;
-    }
 
     public List<ProductResponse> getAllProducts() {
         return productRepository.findAll().stream().map(p -> mapToProductResponse(p)).toList();

@@ -5,6 +5,7 @@ import be.pxl.services.domain.ShoppingCart;
 import be.pxl.services.domain.dto.ShoppingCartResponse;
 import be.pxl.services.repository.ProductRepository;
 import be.pxl.services.repository.ShoppingCartRepository;
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -12,6 +13,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@NoArgsConstructor(force = true)
 public class ShoppingCartService implements IShoppingCartService {
     private final ShoppingCartRepository shoppingCartRepository;
     private final ProductRepository productRepository;
