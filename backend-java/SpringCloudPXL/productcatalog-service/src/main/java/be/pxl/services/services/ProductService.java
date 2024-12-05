@@ -10,6 +10,8 @@ import be.pxl.services.domain.dto.ProductResponse;
 import be.pxl.services.repository.ProductRepository;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -22,6 +24,8 @@ import java.util.List;
 public class ProductService implements IProductService {
     private final ProductRepository productRepository;
     private final LogbookClient logbookClient;
+    @Autowired
+    private RabbitTemplate rabbitTemplate;
 
     public List<ProductResponse> getAllProducts() {
         return productRepository.findAll().stream().map(p -> mapToProductResponse(p)).toList();
@@ -41,6 +45,10 @@ public class ProductService implements IProductService {
                 .timestamp(LocalDateTime.now())
                 .build();
         logbookClient.sendNotification(logbookRequest);
+        rabbitTemplate.convertAndSend("messageQueue", productRequest);
+//        String message = "New product created: " + product.getName();
+//        rabbitTemplate.convertAndSend("messageQueue", message);
+//        System.out.println("Message sent to messageQueue: " + message);
     }
 
     @Override
