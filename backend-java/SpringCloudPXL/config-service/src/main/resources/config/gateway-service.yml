@@ -37,6 +37,12 @@ spring:
             - Path=/notification/**
           filters:
             - RewritePath=/notification/(?<path>.*), /$\{path}
+        - id: logbook-service
+          uri: lb://logbook-service
+          predicates:
+            - Path=/logbook/**
+          filters:
+            - RewritePath=/logbook/(?<path>.*), /$\{path}
 
 eureka:
   client:
