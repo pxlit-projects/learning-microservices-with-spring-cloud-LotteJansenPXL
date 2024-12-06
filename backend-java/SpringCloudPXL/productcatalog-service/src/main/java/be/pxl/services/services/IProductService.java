@@ -1,6 +1,5 @@
 package be.pxl.services.services;
 
-import be.pxl.services.domain.Product;
 import be.pxl.services.domain.dto.CategoryRequest;
 import be.pxl.services.domain.dto.ProductRequest;
 import be.pxl.services.domain.dto.ProductResponse;

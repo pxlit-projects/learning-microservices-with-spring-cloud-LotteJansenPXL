@@ -4,14 +4,14 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 /**
- * Notification Service
+ * Hello world!
  *
  */
 @SpringBootApplication
-public class NotificationServiceApplication
+public class App 
 {
     public static void main( String[] args )
     {
-        SpringApplication.run(NotificationServiceApplication.class, args);
+        SpringApplication.run(App.class, args);
     }
 }

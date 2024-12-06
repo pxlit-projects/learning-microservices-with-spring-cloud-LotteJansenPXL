@@ -12,9 +12,9 @@ import java.util.List;
 @Entity
 @Table(name = "product")
 @Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 public class Product {
 
     @Id

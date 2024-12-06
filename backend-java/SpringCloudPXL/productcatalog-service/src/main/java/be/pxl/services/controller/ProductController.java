@@ -1,11 +1,9 @@
 package be.pxl.services.controller;
 
-import be.pxl.services.domain.Product;
 import be.pxl.services.domain.dto.CategoryRequest;
 import be.pxl.services.domain.dto.ProductRequest;
 import be.pxl.services.domain.dto.ProductResponse;
 import be.pxl.services.services.IProductService;
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,10 +14,14 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/product")
 @RequiredArgsConstructor
-@NoArgsConstructor(force = true)
 public class ProductController {
 
     private final IProductService productService;
+
+    @GetMapping
+    public String testEndpoint() {
+        return "ProductController is working";
+    }
 
     @GetMapping
     public ResponseEntity<List<ProductResponse>> getAllProducts() {
@@ -44,7 +46,7 @@ public class ProductController {
         productService.updateProduct(productId, productRequest);
     }
 
-    @PutMapping("/{productId/addcategory")
+    @PutMapping("/{productId}/addcategory")
     @ResponseStatus(HttpStatus.OK)
     public void addCategory(@PathVariable Long productId, @RequestBody CategoryRequest categoryRequest) {
         productService.addCategory(productId, categoryRequest);

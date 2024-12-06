@@ -1,7 +1,6 @@
 package be.pxl.services.domain.dto;
 
 import be.pxl.services.domain.Product;
-import jakarta.persistence.ManyToMany;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
