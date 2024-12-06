@@ -22,10 +22,8 @@ public class Product {
     private Long id;
     private String name;
     private String description;
-    @ManyToMany
-    private List<Category> categories = new ArrayList<>();
+    private String category;
+    private double price;
 
-    public void addCategory(Category category) {
-        categories.add(category);
-    }
+
 }

@@ -34,6 +34,7 @@ public class ProductService implements IProductService {
         Product product = Product.builder()
                 .name(productRequest.getName())
                 .description(productRequest.getDescription())
+                .price(productRequest.getPrice())
                 .build();
         productRepository.save(product);
 
@@ -52,6 +53,7 @@ public class ProductService implements IProductService {
         Product product = productRepository.findById(id).orElse(null);
         product.setName(productRequest.getName());
         product.setDescription(productRequest.getDescription());
+        product.setPrice(productRequest.getPrice());
         productRepository.save(product);
 
         LogbookRequest logbookRequest = LogbookRequest.builder()
@@ -62,23 +64,23 @@ public class ProductService implements IProductService {
         logbookClient.sendNotification(logbookRequest);
     }
 
-    @Override
-    public void addCategory(Long productId, CategoryRequest categoryRequest) {
-        Product product = productRepository.findById(productId).orElse(null);
-        Category category = Category.builder()
-                .name(categoryRequest.getName())
-                .products(categoryRequest.getProducts())
-                .id(categoryRequest.getId())
-                .build();
-        product.addCategory(category);
-
-        LogbookRequest logbookRequest = LogbookRequest.builder()
-                .message("Added category to product")
-                .sender("product-service")
-                .timestamp(LocalDateTime.now())
-                .build();
-        logbookClient.sendNotification(logbookRequest);
-    }
+//    @Override
+//    public void addCategory(Long productId, CategoryRequest categoryRequest) {
+//        Product product = productRepository.findById(productId).orElse(null);
+//        Category category = Category.builder()
+//                .name(categoryRequest.getName())
+//                .products(categoryRequest.getProducts())
+//                .id(categoryRequest.getId())
+//                .build();
+//        product.addCategory(category);
+//
+//        LogbookRequest logbookRequest = LogbookRequest.builder()
+//                .message("Added category to product")
+//                .sender("product-service")
+//                .timestamp(LocalDateTime.now())
+//                .build();
+//        logbookClient.sendNotification(logbookRequest);
+//    }
 
     @Override
     public void removeProduct(Long productId) {
@@ -94,33 +96,34 @@ public class ProductService implements IProductService {
         }
     }
 
-    @Override
-    public void removeCategory(Long productId, CategoryRequest categoryRequest) {
-        Product product = productRepository.findById(productId).orElse(null);
-        Category category = Category.builder()
-                .name(categoryRequest.getName())
-                .products(categoryRequest.getProducts())
-                .id(categoryRequest.getId())
-                .build();
-        if (product != null) {
-            List<Category> productCategories = new ArrayList<>();
-            if(productCategories.contains(category)) {
-                productCategories.remove(category);
-                product.setCategories(productCategories);
-                LogbookRequest logbookRequest = LogbookRequest.builder()
-                        .message("Removed category from product")
-                        .sender("product-service")
-                        .timestamp(LocalDateTime.now())
-                        .build();
-                logbookClient.sendNotification(logbookRequest);
-            }
-        }
-    }
+//    @Override
+//    public void removeCategory(Long productId, CategoryRequest categoryRequest) {
+//        Product product = productRepository.findById(productId).orElse(null);
+//        Category category = Category.builder()
+//                .name(categoryRequest.getName())
+//                .products(categoryRequest.getProducts())
+//                .id(categoryRequest.getId())
+//                .build();
+//        if (product != null) {
+//            List<Category> productCategories = new ArrayList<>();
+//            if(productCategories.contains(category)) {
+//                productCategories.remove(category);
+//                product.setCategories(productCategories);
+//                LogbookRequest logbookRequest = LogbookRequest.builder()
+//                        .message("Removed category from product")
+//                        .sender("product-service")
+//                        .timestamp(LocalDateTime.now())
+//                        .build();
+//                logbookClient.sendNotification(logbookRequest);
+//            }
+//        }
+//    }
 
     private ProductResponse mapToProductResponse(Product product) {
         ProductResponse productResponse = ProductResponse.builder()
                 .name(product.getName())
                 .description(product.getDescription())
+                .price(product.getPrice())
                 .build();
         return productResponse;
     }

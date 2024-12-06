@@ -1,4 +1,9 @@
-port: 8083
+server:
+  port: 8083
+
+logging:
+  level:
+    org.springframework.cloud.gateway: DEBUG
 
 spring:
   cloud:
@@ -20,23 +25,17 @@ spring:
             allowCredentials: false
       routes:
         - id: productcatalog-service
-          uri: lb://productcatalog-service
+          uri: lb://productcatalog-service  # Uses Eureka for service discovery
           predicates:
-            - Path=/productcatalog/**
+            - Path=/api/product/**  # Ensure the path is correctly defined
           filters:
-            - RewritePath=/productcatalog/(?<path>.*), /$\{path}
+            - RewritePath=/api/product/(?<path>.*), /$\{path}
         - id: shoppingcart-service
           uri: lb://shoppingcart-service
           predicates:
-            - Path=/shoppingcart/**
+            - Path=/api/shoppingcart/**
           filters:
-            - RewritePath=/shoppingcart/(?<path>.*), /$\{path}
-        - id: notification-service
-          uri: lb://notification-service
-          predicates:
-            - Path=/notification/**
-          filters:
-            - RewritePath=/notification/(?<path>.*), /$\{path}
+            - RewritePath=/api/shoppingcart/(?<path>.*), /$\{path}
         - id: logbook-service
           uri: lb://logbook-service
           predicates:

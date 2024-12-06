@@ -23,7 +23,7 @@ public class ProductController {
         return new ResponseEntity(productService.getAllProducts(), HttpStatus.OK);
     }
 
-    @PostMapping
+    @PostMapping("/add")
     @ResponseStatus(HttpStatus.CREATED)
     public void addProduct(@RequestBody ProductRequest productRequest) {
         productService.addProduct(productRequest);
@@ -41,15 +41,15 @@ public class ProductController {
         productService.updateProduct(productId, productRequest);
     }
 
-    @PutMapping("/{productId}/addcategory")
-    @ResponseStatus(HttpStatus.OK)
-    public void addCategory(@PathVariable Long productId, @RequestBody CategoryRequest categoryRequest) {
-        productService.addCategory(productId, categoryRequest);
-    }
-
-    @PutMapping("/{productId}/removecategory")
-    @ResponseStatus(HttpStatus.OK)
-    public void removeCategory(@PathVariable Long productId, @RequestBody CategoryRequest categoryRequest) {
-        productService.removeCategory(productId, categoryRequest);
-    }
+//    @PutMapping("/{productId}/addcategory")
+//    @ResponseStatus(HttpStatus.OK)
+//    public void addCategory(@PathVariable Long productId, @RequestBody CategoryRequest categoryRequest) {
+//        productService.addCategory(productId, categoryRequest);
+//    }
+//
+//    @PutMapping("/{productId}/removecategory")
+//    @ResponseStatus(HttpStatus.OK)
+//    public void removeCategory(@PathVariable Long productId, @RequestBody CategoryRequest categoryRequest) {
+//        productService.removeCategory(productId, categoryRequest);
+//    }
 }

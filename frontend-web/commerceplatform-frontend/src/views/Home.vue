@@ -14,6 +14,7 @@
       <router-link :to="'/product/' + product.id">View Details</router-link>
     </div>
   </div>
+  <h1> Homepage works </h1>
 </div>
 </template>
 

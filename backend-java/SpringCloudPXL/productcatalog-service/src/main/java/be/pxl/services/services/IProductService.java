@@ -13,9 +13,9 @@ public interface IProductService {
 
     void updateProduct(Long id, ProductRequest productRequest);
 
-    void addCategory(Long productId, CategoryRequest categoryRequest);
+    //void addCategory(Long productId, CategoryRequest categoryRequest);
 
     void removeProduct(Long productId);
 
-    void removeCategory(Long productId, CategoryRequest categoryRequest);
+    //void removeCategory(Long productId, CategoryRequest categoryRequest);
 }
