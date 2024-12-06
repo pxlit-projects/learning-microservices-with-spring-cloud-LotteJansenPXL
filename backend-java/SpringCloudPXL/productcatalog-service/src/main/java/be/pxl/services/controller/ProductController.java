@@ -19,11 +19,6 @@ public class ProductController {
     private final IProductService productService;
 
     @GetMapping
-    public String testEndpoint() {
-        return "ProductController is working";
-    }
-
-    @GetMapping
     public ResponseEntity<List<ProductResponse>> getAllProducts() {
         return new ResponseEntity(productService.getAllProducts(), HttpStatus.OK);
     }

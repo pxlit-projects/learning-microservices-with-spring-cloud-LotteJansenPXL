@@ -20,7 +20,7 @@ public class ShoppingCart {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private Long customerId;
-    @OneToMany(mappedBy = "shoppingcart")
+    @OneToMany(mappedBy = "shoppingCart")
     private List<Product> products = new ArrayList<>();
 
     public void addProductId(Product product) {

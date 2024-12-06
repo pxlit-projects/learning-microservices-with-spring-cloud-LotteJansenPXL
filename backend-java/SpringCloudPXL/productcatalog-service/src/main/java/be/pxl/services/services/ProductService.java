@@ -1,5 +1,6 @@
 package be.pxl.services.services;
 
+import be.pxl.services.client.LogbookClient;
 import be.pxl.services.domain.Category;
 import be.pxl.services.domain.Product;
 import be.pxl.services.domain.dto.CategoryRequest;
@@ -8,8 +9,8 @@ import be.pxl.services.domain.dto.ProductRequest;
 import be.pxl.services.domain.dto.ProductResponse;
 import be.pxl.services.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
-//import org.springframework.amqp.rabbit.core.RabbitTemplate;
-//import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -20,9 +21,9 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ProductService implements IProductService {
     private final ProductRepository productRepository;
-    //private final LogbookClient logbookClient;
-//    @Autowired
-//    private RabbitTemplate rabbitTemplate;
+    private final LogbookClient logbookClient;
+    @Autowired
+    private RabbitTemplate rabbitTemplate;
 
     public List<ProductResponse> getAllProducts() {
         return productRepository.findAll().stream().map(p -> mapToProductResponse(p)).toList();
@@ -36,16 +37,14 @@ public class ProductService implements IProductService {
                 .build();
         productRepository.save(product);
 
-//        LogbookRequest logbookRequest = LogbookRequest.builder()
-//                .message("Product added")
-//                .sender("product-service")
-//                .timestamp(LocalDateTime.now())
-//                .build();
-//        logbookClient.sendNotification(logbookRequest);
-//        rabbitTemplate.convertAndSend("messageQueue", productRequest);
-//        String message = "New product created: " + product.getName();
-//        rabbitTemplate.convertAndSend("messageQueue", message);
-//        System.out.println("Message sent to messageQueue: " + message);
+        LogbookRequest logbookRequest = LogbookRequest.builder()
+                .message("Product added")
+                .sender("product-service")
+                .timestamp(LocalDateTime.now())
+                .build();
+        logbookClient.sendNotification(logbookRequest);
+        rabbitTemplate.convertAndSend("messageQueue", productRequest);
+        String message = "New product created: " + product.getName();
     }
 
     @Override
@@ -55,12 +54,12 @@ public class ProductService implements IProductService {
         product.setDescription(productRequest.getDescription());
         productRepository.save(product);
 
-//        LogbookRequest logbookRequest = LogbookRequest.builder()
-//                .message("Product updated")
-//                .sender("product-service")
-//                .timestamp(LocalDateTime.now())
-//                .build();
-//        logbookClient.sendNotification(logbookRequest);
+        LogbookRequest logbookRequest = LogbookRequest.builder()
+                .message("Product updated")
+                .sender("product-service")
+                .timestamp(LocalDateTime.now())
+                .build();
+        logbookClient.sendNotification(logbookRequest);
     }
 
     @Override
@@ -73,12 +72,12 @@ public class ProductService implements IProductService {
                 .build();
         product.addCategory(category);
 
-//        LogbookRequest logbookRequest = LogbookRequest.builder()
-//                .message("Added category to product")
-//                .sender("product-service")
-//                .timestamp(LocalDateTime.now())
-//                .build();
-//        logbookClient.sendNotification(logbookRequest);
+        LogbookRequest logbookRequest = LogbookRequest.builder()
+                .message("Added category to product")
+                .sender("product-service")
+                .timestamp(LocalDateTime.now())
+                .build();
+        logbookClient.sendNotification(logbookRequest);
     }
 
     @Override
@@ -86,12 +85,12 @@ public class ProductService implements IProductService {
         Product product = productRepository.findById(productId).orElse(null);
         if (product != null) {
             productRepository.delete(product);
-//            LogbookRequest logbookRequest = LogbookRequest.builder()
-//                    .message("Removed product")
-//                    .sender("product-service")
-//                    .timestamp(LocalDateTime.now())
-//                    .build();
-//            logbookClient.sendNotification(logbookRequest);
+            LogbookRequest logbookRequest = LogbookRequest.builder()
+                    .message("Removed product")
+                    .sender("product-service")
+                    .timestamp(LocalDateTime.now())
+                    .build();
+            logbookClient.sendNotification(logbookRequest);
         }
     }
 
@@ -108,12 +107,12 @@ public class ProductService implements IProductService {
             if(productCategories.contains(category)) {
                 productCategories.remove(category);
                 product.setCategories(productCategories);
-//                LogbookRequest logbookRequest = LogbookRequest.builder()
-//                        .message("Removed category from product")
-//                        .sender("product-service")
-//                        .timestamp(LocalDateTime.now())
-//                        .build();
-//                logbookClient.sendNotification(logbookRequest);
+                LogbookRequest logbookRequest = LogbookRequest.builder()
+                        .message("Removed category from product")
+                        .sender("product-service")
+                        .timestamp(LocalDateTime.now())
+                        .build();
+                logbookClient.sendNotification(logbookRequest);
             }
         }
     }

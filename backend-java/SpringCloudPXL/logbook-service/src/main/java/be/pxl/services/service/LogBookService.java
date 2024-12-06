@@ -17,4 +17,5 @@ public class LogBookService implements ILogBookService {
         log.info("To: {}", logInput.getSender());
         log.info("At: {}", logInput.getTimestamp());
     }
+
 }
