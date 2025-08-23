@@ -1,9 +1,9 @@
 package be.pxl.services.domain.dto;
 
-import be.pxl.services.domain.Category;
+import be.pxl.services.domain.Product;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -14,10 +14,8 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class ProductRequest {
+public class WishlistResponse {
     private Long id;
-    private String name;
-    private String description;
-    private Double price;
-    private List<Category> categories;
+    private Long userId;
+    private List<Product> products;
 }

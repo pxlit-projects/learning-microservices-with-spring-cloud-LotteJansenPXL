@@ -9,19 +9,16 @@ import lombok.NoArgsConstructor;
 import java.util.List;
 
 @Entity
-@Table(name = "category")
+@Table(name="category")
 @Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 public class Category {
-
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-
     private String name;
-
-//    @ManyToMany(mappedBy = "categories")
-//    private List<Product> products;
+    @ManyToMany(mappedBy = "categories")
+    private List<Product> products;
 }

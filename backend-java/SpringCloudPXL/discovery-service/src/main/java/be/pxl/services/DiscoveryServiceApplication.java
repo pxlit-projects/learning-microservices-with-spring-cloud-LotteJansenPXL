@@ -5,11 +5,11 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.netflix.eureka.server.EnableEurekaServer;
 
 /**
- * DiscoveryServiceApplication
+ * Hello world!
  *
  */
 @SpringBootApplication
-@EnableEurekaServer
+@EnableEurekaServer //Maak van deze applicatie een discovery service
 public class DiscoveryServiceApplication
 {
     public static void main( String[] args )

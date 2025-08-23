@@ -10,10 +10,11 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
  */
 @SpringBootApplication
 @EnableDiscoveryClient
-public class ProductCatalogServiceApplication
+
+public class WishlistServiceApplication
 {
     public static void main( String[] args )
     {
-        SpringApplication.run(ProductCatalogServiceApplication.class, args);
+        SpringApplication.run(WishlistServiceApplication.class, args);
     }
 }

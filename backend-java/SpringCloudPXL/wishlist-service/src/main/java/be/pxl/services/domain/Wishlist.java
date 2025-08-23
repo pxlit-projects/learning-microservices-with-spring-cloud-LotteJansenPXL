@@ -9,22 +9,20 @@ import lombok.NoArgsConstructor;
 import java.util.List;
 
 @Entity
-@Table(name="shoppingcart")
+@Table(name="wishlist")
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class ShoppingCart {
+public class Wishlist {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private Long userId;
-    private Double totalPrice;
-    private Boolean checkedOut;
     @OneToMany
     @JoinTable(
-            name = "shoppingcart_products",
-            joinColumns = @JoinColumn(name = "shoppingcart_id"),
+            name = "wishlist_products",
+            joinColumns = @JoinColumn(name = "wishlist"),
             inverseJoinColumns = @JoinColumn(name = "product_id")
     )
     private List<Product> products;
