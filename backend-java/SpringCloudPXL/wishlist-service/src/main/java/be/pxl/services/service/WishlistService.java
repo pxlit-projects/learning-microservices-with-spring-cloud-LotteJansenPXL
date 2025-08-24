@@ -1,8 +1,6 @@
 package be.pxl.services.service;
 
-import be.pxl.services.domain.Product;
 import be.pxl.services.domain.Wishlist;
-import be.pxl.services.domain.dto.ProductResponse;
 import be.pxl.services.domain.dto.WishlistRequest;
 import be.pxl.services.domain.dto.WishlistResponse;
 import be.pxl.services.repository.WishlistRepository;
@@ -24,7 +22,7 @@ public class WishlistService implements IWishlistService {
     public void createWishlist(WishlistRequest wishlistRequest) {
         Wishlist wishlist = Wishlist.builder()
                 .userId(wishlistRequest.getUserId())
-                .products(wishlistRequest.getProducts())
+                .items(wishlistRequest.getItems())
                 .build();
         wishlistRepository.save(wishlist);
     }
@@ -34,7 +32,7 @@ public class WishlistService implements IWishlistService {
         Wishlist wishlist = wishlistRepository.findById(wishlistRequest.getId())
                 .orElseThrow(() -> new RuntimeException("Wishlist not found: " + wishlistRequest.getId()));
         wishlist.setUserId(wishlistRequest.getUserId());
-        wishlist.setProducts(wishlistRequest.getProducts());
+        wishlist.setItems(wishlistRequest.getItems());
         wishlistRepository.save(wishlist);
     }
 
@@ -42,7 +40,7 @@ public class WishlistService implements IWishlistService {
         return WishlistResponse.builder()
                 .id(wishlist.getId())
                 .userId(wishlist.getUserId())
-                .products(wishlist.getProducts().stream().map(this::mapToProductResponse).toList())
+                .items(wishlist.getItems())
                 .build();
     }
 }

@@ -21,11 +21,6 @@ public class ShoppingCart {
     private Long userId;
     private Double totalPrice;
     private Boolean checkedOut;
-    @OneToMany
-    @JoinTable(
-            name = "shoppingcart_products",
-            joinColumns = @JoinColumn(name = "shoppingcart_id"),
-            inverseJoinColumns = @JoinColumn(name = "product_id")
-    )
-    private List<Product> products;
+    @OneToMany(mappedBy = "shoppingCart", cascade = CascadeType.ALL)
+    private List<ShoppingCartProduct> products;
 }

@@ -2,6 +2,7 @@ package be.pxl.services.controller;
 
 import be.pxl.services.domain.Product;
 import be.pxl.services.domain.ShoppingCart;
+import be.pxl.services.domain.ShoppingCartProduct;
 import be.pxl.services.domain.dto.ShoppingCartRequest;
 import be.pxl.services.service.IShoppingCartService;
 import lombok.RequiredArgsConstructor;
@@ -28,13 +29,13 @@ public class ShoppingCartController {
 
     @PutMapping("/addProduct/{cartId}")
     @ResponseStatus(HttpStatus.CREATED)
-    public void addProductToCart(@RequestBody Product product, @PathVariable Long cartId) {
+    public void addProductToCart(@RequestBody ShoppingCartProduct product, @PathVariable Long cartId) {
         shoppingCartService.addProductToCart(cartId, product);
     }
 
     @PutMapping("/removeProduct/{cartId}")
     @ResponseStatus(HttpStatus.CREATED)
-    public void removeProductFromCart(@RequestBody Product product, @PathVariable Long cartId) {
+    public void removeProductFromCart(@RequestBody ShoppingCartProduct product, @PathVariable Long cartId) {
         shoppingCartService.removeProductFromCart(cartId, product);
     }
 

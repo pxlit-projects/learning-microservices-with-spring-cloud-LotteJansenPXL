@@ -2,11 +2,10 @@ package be.pxl.services.service;
 
 import be.pxl.services.domain.Product;
 import be.pxl.services.domain.ShoppingCart;
-import be.pxl.services.domain.dto.ProductResponse;
+import be.pxl.services.domain.ShoppingCartProduct;
 import be.pxl.services.domain.dto.ShoppingCartRequest;
 import be.pxl.services.domain.dto.ShoppingCartResponse;
 import be.pxl.services.repository.ShoppingCartRepository;
-import ch.qos.logback.core.hook.ShutdownHook;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -30,27 +29,27 @@ public class ShoppingCartService implements IShoppingCartService {
                 .userId(shoppingCartRequest.getUserId())
                 .totalPrice(shoppingCartRequest.getTotalPrice())
                 .checkedOut(shoppingCartRequest.getCheckedOut())
-                .products(shoppingCartRequest.getProducts())
+                //.products(shoppingCartRequest.getProducts())
                 .build();
         shoppingCartRepository.save(shoppingCart);
 
     }
 
     @Override
-    public void addProductToCart(Long cartId, Product product) {
+    public void addProductToCart(Long cartId, ShoppingCartProduct product) {
         ShoppingCart cart = shoppingCartRepository.findById(cartId)
                 .orElseThrow(() -> new RuntimeException("Shopping cart not found: " + cartId));
         cart.getProducts().add(product);
-        cart.setTotalPrice(cart.getTotalPrice() + product.getPrice());
+        cart.setTotalPrice(cart.getTotalPrice() + product.getProduct().getPrice());
         shoppingCartRepository.save(cart);
     }
 
     @Override
-    public void removeProductFromCart(Long cartId, Product product) {
+    public void removeProductFromCart(Long cartId, ShoppingCartProduct product) {
         ShoppingCart cart = shoppingCartRepository.findById(cartId)
                 .orElseThrow(() -> new RuntimeException("Shopping cart not found: " + cartId));
         if(cart.getProducts().removeIf(p -> p.getId().equals(product.getId()))) {
-            cart.setTotalPrice(cart.getTotalPrice() - product.getPrice());
+            cart.setTotalPrice(cart.getTotalPrice() - product.getProduct().getPrice());
             shoppingCartRepository.save(cart);
         } else {
             throw new RuntimeException("Product not found in cart: " + product.getId());

@@ -1,9 +1,6 @@
 package be.pxl.services.domain.dto;
 
-import be.pxl.services.domain.Product;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.OneToMany;
+import be.pxl.services.domain.WishlistItem;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -17,5 +14,5 @@ import java.util.List;
 public class WishlistResponse {
     private Long id;
     private Long userId;
-    private List<Product> products;
+    private List<WishlistItem> items;
 }

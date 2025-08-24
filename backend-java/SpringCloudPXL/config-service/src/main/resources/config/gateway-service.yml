@@ -1,0 +1,51 @@
+server:
+  port: 8083
+
+spring:
+  cloud:
+    gateway:
+      globalcors:
+        corsConfigurations:
+            '[/**]':
+                allowedOrigins:
+                  - "localhost"
+                allowedMethods:
+                - "*"
+                allowedHeaders:
+                - "*"
+                allowCredentials: true
+      discovery:
+        locator:
+          enabled: true
+      routes:
+        - id: productcatalog-service
+          uri: lb://productcatalog-service
+          predicates:
+            - Path=/product/**
+          filters:
+            - RewritePath=/product/(?<path>.*), /$\{path}
+        - id: shoppingcart-service
+          uri: lb://shoppingcart-service
+          predicates:
+            - Path=/shoppingcart/**
+          filters:
+            - RewritePath=/shoppingcart/(?<path>.*), /$\{path}
+        - id: wishlist-service
+          uri: lb://wishlist-service
+          predicates:
+            - Path=/wishlist/**
+          filters:
+            - RewritePath=/wishlist/(?<path>.*), /$\{path}
+        - id: logbook-service
+          uri: lb://logbook-service
+          predicates:
+            - Path=/logbook/**
+          filters:
+            - RewritePath=/logbook/(?<path>.*), /$\{path}
+
+eureka:
+  instance:
+    instanceId: "localhost:${spring.application.name}:${server.port}"
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8061/eureka/

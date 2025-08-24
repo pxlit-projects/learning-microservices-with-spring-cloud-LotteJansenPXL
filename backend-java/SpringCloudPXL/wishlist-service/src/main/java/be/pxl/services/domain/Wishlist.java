@@ -19,11 +19,6 @@ public class Wishlist {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private Long userId;
-    @OneToMany
-    @JoinTable(
-            name = "wishlist_products",
-            joinColumns = @JoinColumn(name = "wishlist"),
-            inverseJoinColumns = @JoinColumn(name = "product_id")
-    )
-    private List<Product> products;
+    @OneToMany(mappedBy = "wishlist", cascade = CascadeType.ALL)
+    private List<WishlistItem> items;
 }
