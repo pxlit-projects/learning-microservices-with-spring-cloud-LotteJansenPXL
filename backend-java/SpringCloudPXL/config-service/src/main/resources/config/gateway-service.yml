@@ -9,6 +9,7 @@ spring:
             '[/**]':
                 allowedOrigins:
                   - "localhost"
+                  - "http://localhost:4200"
                 allowedMethods:
                 - "*"
                 allowedHeaders:
@@ -42,6 +43,12 @@ spring:
             - Path=/logbook/**
           filters:
             - RewritePath=/logbook/(?<path>.*), /$\{path}
+        - id: gateway-service
+          uri: lb://gateway-service
+          predicates:
+            - Path=/gateway/**
+          filters:
+            - RewritePath=/gateway/(?<path>.*), /$\{path}
 
 eureka:
   instance:
