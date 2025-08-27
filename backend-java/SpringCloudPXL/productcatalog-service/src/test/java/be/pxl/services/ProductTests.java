@@ -20,7 +20,7 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@SpringBootTest
+@SpringBootTest(classes= ProductCatalogServiceApplication.class)
 @Testcontainers
 @AutoConfigureMockMvc
 public class ProductTests {
@@ -54,5 +54,51 @@ public class ProductTests {
                 .andExpect(status().isCreated());
 
         assertEquals(1, productRepository.findAll().size());
+    }
+
+    @Test
+    public void testGetAllProducts() throws Exception {
+        Product product = Product.builder()
+                .name("Phone")
+                .description("Smartphone")
+                .price(599.99)
+                .build();
+        productRepository.save(product);
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/product")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+    }
+    @Test
+    public void testGetProductById() throws Exception {
+        Product product = Product.builder()
+                .name("Laptop")
+                .description("Gaming laptop")
+                .price(1200.00)
+                .build();
+        Product savedProduct = productRepository.save(product);
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/product/" + savedProduct.getId())
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+    }
+    @Test
+    public void testUpdateProduct() throws Exception {
+        Product product = Product.builder()
+                .name("Tablet")
+                .description("Android tablet")
+                .price(250.00)
+                .build();
+        Product savedProduct = productRepository.save(product);
+
+        savedProduct.setName("Updated Tablet");
+        String updatedProductString = objectMapper.writeValueAsString(savedProduct);
+
+        mockMvc.perform(MockMvcRequestBuilders.put("/api/product/" + savedProduct.getId())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(updatedProductString))
+                .andExpect(status().isOk());
+
+        assertEquals("Updated Tablet", productRepository.findById(savedProduct.getId()).get().getName());
     }
 }
