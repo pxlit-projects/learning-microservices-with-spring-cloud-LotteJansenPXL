@@ -15,8 +15,8 @@ public class QueueService {
         System.out.println("Message read from myQueue : " + in);
     }
 
-//    public void sendMessage(String message) {
-//        rabbitTemplate.convertAndSend("myQueue", message);
-//    }
+    public void sendMessage(String message) {
+        rabbitTemplate.convertAndSend("myQueue", message);
+    }
 
 }

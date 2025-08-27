@@ -19,7 +19,6 @@ public class CategoryService implements ICategoryService {
     public void CreateCategory(CategoryRequest categoryRequest) {
         categoryRepository.save(Category.builder()
                 .name(categoryRequest.getName())
-                .products(categoryRequest.getProducts())
                 .build());
     }
 
@@ -33,7 +32,6 @@ public class CategoryService implements ICategoryService {
         return CategoryResponse.builder()
                 .id(category.getId())
                 .name(category.getName())
-                .products(category.getProducts())
                 .build();
     }
 }

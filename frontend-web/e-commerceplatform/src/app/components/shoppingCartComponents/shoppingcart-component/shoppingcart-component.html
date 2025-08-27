@@ -1,0 +1,11 @@
+<div *ngIf="shoppingCart">
+  <h2>Shopping Cart for {{ shoppingCart.userId }}</h2>
+  <ul>
+    <li *ngFor="let item of shoppingCart.products">
+      <app-shopping-cart-item [product]="item" 
+        (remove)="removeProduct($event)">
+      </app-shopping-cart-item>
+    </li>
+  </ul>
+
+  <p><strong>Total: </strong>${{ shoppingCart.totalPrice }}</p>

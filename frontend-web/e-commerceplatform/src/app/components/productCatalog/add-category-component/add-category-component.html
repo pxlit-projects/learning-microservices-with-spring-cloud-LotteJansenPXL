@@ -1,0 +1,10 @@
+<h2>Add Category</h2>
+<form [formGroup]="form" (ngSubmit)="onSave()">
+  <label>
+    Category Name:
+    <input formControlName="name" />
+  </label>
+  <br />
+  <button type="submit" [disabled]="form.invalid">Save</button>
+  <button type="button" (click)="onCancel()">Cancel</button>
+</form>

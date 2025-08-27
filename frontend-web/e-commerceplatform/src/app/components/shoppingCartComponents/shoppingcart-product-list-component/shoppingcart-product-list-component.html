@@ -1,0 +1,55 @@
+<div class="product-catalog">
+  <h2>Product Catalog</h2>
+  <div style="display: flex; justify-content: flex-end; align-items: center; margin-bottom: 16px; gap: 16px;">
+    <!-- Search Bar -->
+    <label>
+      Search:
+      <input type="text" [(ngModel)]="searchText" placeholder="Search products..." (ngModelChange)="onFilterChange()" />
+    </label>
+
+    <!-- Category Filter -->
+    <label>
+      Category:
+      <select [(ngModel)]="selectedCategory" (ngModelChange)="onFilterChange()">
+        <option value="">All</option>
+        <option *ngFor="let cat of categories" [value]="cat">{{ cat }}</option>
+      </select>
+    </label>
+
+    <!-- Max Price Filter -->
+    <label>
+      Max Price:
+      <input type="number" [(ngModel)]="maxPrice" min="0" placeholder="No limit" (ngModelChange)="onFilterChange()" />
+    </label>
+
+    <button (click)="resetFilters()">Reset</button>
+    <button (click)="logout()" class="btn btn-danger">
+      Logout
+    </button>
+  </div>
+
+  <div style="display: flex; justify-content: flex-end; align-items: center; margin-bottom: 16px; gap: 16px;">
+    <button (click)="openCart()">
+      <i class="fa fa-shopping-cart"></i> Cart
+    </button>
+    <button (click)="openWishlist()">
+      <i class="fa fa-heart"></i> Wishlist
+    </button>
+  </div>
+
+  <div class="products-grid" *ngIf="filteredProducts.length > 0; else noProducts">
+    <div *ngFor="let product of filteredProducts" class="product-item">
+      <app-shoppingcart-product-component
+        [product]="product"
+        [shoppingCart]="shoppingCart"
+        [wishlist]="wishlist"
+      ></app-shoppingcart-product-component>
+    </div>
+  </div>
+
+  <ng-template #noProducts>
+    <div class="no-products">
+      <p>No products available</p>
+    </div>
+  </ng-template>
+</div>

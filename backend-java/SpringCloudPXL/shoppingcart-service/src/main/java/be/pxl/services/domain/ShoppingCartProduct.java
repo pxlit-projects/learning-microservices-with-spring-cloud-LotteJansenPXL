@@ -17,7 +17,6 @@ public class ShoppingCartProduct {
     private Long productId;
     @Transient
     private Product product;
-    private int quantity;
     @ManyToOne
     @JoinColumn(name="shoppingcart_id")
     private ShoppingCart shoppingCart;

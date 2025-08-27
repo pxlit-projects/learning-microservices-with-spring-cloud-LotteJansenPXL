@@ -1,0 +1,8 @@
+<h2>Logbook Notifications</h2>
+<div *ngFor="let log of logs" style="border: 1px solid #ccc; padding: 10px; margin-bottom: 10px;">
+    <p>Sender: {{ log.sender }}</p>
+    <p>Receiver: {{ log.receiver }}</p>
+    <p>Message: {{ log.message }}</p>
+    <p>Date: {{ log.timestamp | date:'short' }}</p>
+
+</div>

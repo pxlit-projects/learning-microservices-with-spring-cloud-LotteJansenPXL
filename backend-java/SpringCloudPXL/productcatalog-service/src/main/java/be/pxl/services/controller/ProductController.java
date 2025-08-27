@@ -33,26 +33,29 @@ public class ProductController {
         productService.CreateProduct(product);
     }
 
-    @PutMapping
-    @ResponseStatus(HttpStatus.CREATED)
+    @PutMapping("/{productId}")
+    @ResponseStatus(HttpStatus.OK)
     public void updateProduct(@RequestBody ProductRequest productRequest) {
         log.info("Update product: {}", productRequest);
         productService.UpdateProduct(productRequest);
     }
 
-    @GetMapping("/{categoryId}")
+    @GetMapping("/productsbycategory/{categoryId}")
     public ResponseEntity getProductsByCategory(@PathVariable Long categoryId) {
         log.info("Get products by category: {}", categoryId);
         return new ResponseEntity(productService.getProductsByCategory(categoryId), HttpStatus.OK);
     }
 
-    @PutMapping("/{productId}/category/{categoryId}")
-    @ResponseStatus(HttpStatus.CREATED)
-    public void AddCategoryToProduct(@PathVariable Long productId, @PathVariable Long categoryId) {
-        log.info("Add category to product: {}", productId);
-        productService.AddProductToCategory(productId, categoryId);
+//    @PutMapping("/{productId}/category/{categoryId}")
+//    @ResponseStatus(HttpStatus.CREATED)
+//    public void AddCategoryToProduct(@PathVariable Long productId, @PathVariable Long categoryId) {
+//        log.info("Add category to product: {}", productId);
+//        productService.AddProductToCategory(productId, categoryId);
+//    }
+
+    @GetMapping("/{productId}")
+    public ResponseEntity getProductById(@PathVariable Long productId) {
+        log.info("Get product by id: {}", productId);
+        return new ResponseEntity(productService.getProductById(productId), HttpStatus.OK);
     }
-
-
-
 }

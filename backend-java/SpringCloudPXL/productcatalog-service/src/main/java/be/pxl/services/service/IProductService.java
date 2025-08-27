@@ -16,5 +16,6 @@ public interface IProductService {
 
     List<ProductResponse> getProductsByCategory(Long categoryId);
 
-    void AddProductToCategory(Long productId, Long categoryId);
+    //void AddProductToCategory(Long productId, Long categoryId);
+    ProductResponse getProductById(Long productId);
 }

@@ -18,7 +18,7 @@ public class Wishlist {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private Long userId;
+    private String userId;
     @OneToMany(mappedBy = "wishlist", cascade = CascadeType.ALL)
     private List<WishlistItem> items;
 }

@@ -1,9 +1,12 @@
 package be.pxl.services.service;
 
 import be.pxl.services.domain.Notification;
+import be.pxl.services.domain.dto.NotificationRequest;
 import be.pxl.services.repository.NotificationRepository;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDateTime;
 
 @Service
 public class NotificationListener {
@@ -14,9 +17,14 @@ public class NotificationListener {
     }
 
     @RabbitListener(queues="myQueue")
-    public void receiveMessage(String message) {
+    public void receiveMessage(NotificationRequest request) {
         Notification notification = Notification.builder()
-                        .message(message).build();
+                        .sender(request.getSender())
+                        .receiver(request.getReceiver())
+                        .subject(request.getSubject())
+                        .message(request.getMessage())
+                        .timestamp(request.getTimestamp())
+                .build();
         notificationRepository.save(notification);
     }
 

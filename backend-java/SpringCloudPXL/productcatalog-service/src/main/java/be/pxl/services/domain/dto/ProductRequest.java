@@ -19,5 +19,5 @@ public class ProductRequest {
     private String name;
     private String description;
     private Double price;
-    private List<Category> categories;
+    private Category category;
 }

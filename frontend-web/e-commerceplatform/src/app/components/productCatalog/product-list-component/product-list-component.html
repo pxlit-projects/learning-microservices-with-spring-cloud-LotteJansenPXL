@@ -1,0 +1,30 @@
+<div class="product-catalog">
+  <h2>Product Catalog</h2>
+  <div style="display: flex; justify-content: flex-end; align-items: center; margin-bottom: 16px; gap: 16px;">
+    <button (click)="onAddProduct()" class="btn btn-primary">
+      Add Product
+    </button>
+    <button (click)="logout()" class="btn btn-danger">
+      Logout
+    </button>
+  </div>
+  <div class="products-grid" *ngIf="products.length > 0; else noProducts">
+    <div *ngFor="let product of products" class="product-item">
+      <app-product-card-component 
+        [product]="product"
+        (click)="editProduct(product.id)"
+        >
+      </app-product-card-component>
+    </div>
+  </div>
+  <ng-template #noProducts>
+    <div class="no-products">
+      <p>No products available</p>
+    </div>
+  </ng-template>
+  <div>
+    <button class="btn btn-secondary" (click)="onShowLogs()">
+      Show logbook
+    </button>
+  </div>
+</div>

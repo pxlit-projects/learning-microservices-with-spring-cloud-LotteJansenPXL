@@ -14,8 +14,8 @@ import java.util.List;
 @AllArgsConstructor
 public class ShoppingCartResponse {
     private Long id;
-    private Long userId;
+    private String userId;
     private Double totalPrice;
     private Boolean checkedOut;
-    private List<ShoppingCartProduct> products;
+    private List<ShoppingcartProductResponse> products;
 }

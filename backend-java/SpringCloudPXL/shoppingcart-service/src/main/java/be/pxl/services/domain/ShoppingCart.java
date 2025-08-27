@@ -18,7 +18,7 @@ public class ShoppingCart {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private Long userId;
+    private String userId;
     private Double totalPrice;
     private Boolean checkedOut;
     @OneToMany(mappedBy = "shoppingCart", cascade = CascadeType.ALL)

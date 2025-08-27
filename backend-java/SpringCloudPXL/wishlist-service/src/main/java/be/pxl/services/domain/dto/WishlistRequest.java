@@ -13,6 +13,6 @@ import java.util.List;
 @AllArgsConstructor
 public class WishlistRequest {
     private Long id;
-    private Long userId;
-    private List<WishlistItem> items;
+    private String userId;
+    private List<WishlistItemRequest> items;
 }

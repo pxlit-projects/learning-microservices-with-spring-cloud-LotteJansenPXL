@@ -11,13 +11,13 @@ import java.util.List;
 public interface IShoppingCartService {
     List<ShoppingCartResponse> getAllShoppingCarts();
 
-    void createShoppingCart(ShoppingCartRequest shoppingCartRequest);
+    void createShoppingCart(String userId);
 
     void addProductToCart(Long cartId, ShoppingCartProduct product);
 
-    void removeProductFromCart(Long cartId, ShoppingCartProduct product);
+    void removeProductFromCart(Long cartId, Long productId);
 
-    ShoppingCartResponse getShoppingCartById(Long cartId);
+    ShoppingCartResponse getShoppingCartById(String userId);
 
     void checkoutCart(Long cartId);
 }

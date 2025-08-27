@@ -37,6 +37,7 @@ public class NotificationService implements INotificationService {
                 .message(notification.getMessage())
                 .sender(notification.getSender())
                 .receiver(notification.getReceiver())
+                .timestamp(notification.getTimestamp())
                 .build();
     }
 }

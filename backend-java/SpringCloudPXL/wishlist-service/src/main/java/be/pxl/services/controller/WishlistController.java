@@ -1,8 +1,11 @@
 package be.pxl.services.controller;
 
+import be.pxl.services.domain.dto.WishlistItemRequest;
 import be.pxl.services.domain.dto.WishlistRequest;
 import be.pxl.services.service.IWishlistService;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,21 +15,29 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class WishlistController {
     private final IWishlistService wishlistService;
+    private static final Logger log = LoggerFactory.getLogger(WishlistController.class);
 
-    @GetMapping(":{listId}")
-    public ResponseEntity getWishlistById(@PathVariable Long listId) {
-        return new ResponseEntity(wishlistService.getWishlistById(listId), HttpStatus.OK);
+
+    @GetMapping("/{userId}")
+    public ResponseEntity getWishlistById(@PathVariable String userId) {
+        return new ResponseEntity(wishlistService.getWishlistById(userId), HttpStatus.OK);
     }
 
-    @PostMapping
+    @PostMapping("/{userId}")
     @ResponseStatus(HttpStatus.CREATED)
-    public void createWishlist(@RequestBody WishlistRequest wishlistRequest) {
-        wishlistService.createWishlist(wishlistRequest);
+    public void createWishlist(@PathVariable String userId) {
+        wishlistService.createWishlist(userId);
     }
 
-    @PutMapping
-    @ResponseStatus(HttpStatus.CREATED)
-    public void updateWishlist(@RequestBody WishlistRequest wishlistRequest) {
-        wishlistService.updateWishlist(wishlistRequest);
+    @PutMapping("/{listId}/addProduct")
+    public void addProductToWishlist(@PathVariable Long listId, @RequestBody WishlistItemRequest product) {
+        log.info("Adding product to wishlist: {}", product);
+        wishlistService.addProductToWishlist(listId, product);
+    }
+
+    @PutMapping("/{listId}/removeProduct/{productId}")
+    public void removeProductFromWishlist(@PathVariable Long listId, @PathVariable Long productId) {
+        log.info("Removing product from wishlist: {}", productId);
+        wishlistService.removeProductFromWishlist(listId, productId);
     }
 }

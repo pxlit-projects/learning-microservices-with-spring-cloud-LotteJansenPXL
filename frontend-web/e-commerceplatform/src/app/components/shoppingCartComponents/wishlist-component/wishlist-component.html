@@ -1,0 +1,12 @@
+<div *ngIf="wishlist">
+  <h2>Wishlist for {{ wishlist.userId }}</h2>
+  <ul>
+    <li *ngFor="let item of wishlist.items">
+      <ng-container *ngIf="item.product">
+        <app-shopping-cart-item [product]="item" 
+          (remove)="removeProduct($event)">
+        </app-shopping-cart-item>
+      </ng-container>
+    </li>
+  </ul>
+</div>

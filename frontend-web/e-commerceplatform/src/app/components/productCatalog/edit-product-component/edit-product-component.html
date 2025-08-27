@@ -1,0 +1,31 @@
+<h2>Change this product</h2>
+<form *ngIf="productForm" [formGroup]="productForm" (ngSubmit)="onSubmit()">
+  <label>
+    Name:
+    <input formControlName="name" />
+  </label>
+  <br />
+  <label>
+    Description:
+    <textarea formControlName="description"></textarea>
+  </label>
+  <br />
+  <label>
+    Price:
+    <input type="number" formControlName="price" />
+  </label>
+  <br />
+  <label>
+    Category:
+    <select formControlName="category">
+      <option [ngValue]="null">-- Select a category --</option>
+      <option *ngFor="let category of categories" [ngValue]="category">
+        {{ category.name }}
+      </option>
+    </select>
+  </label>
+  
+  <button (click)="addCategory()" type="button">Add new category</button>
+  <br />
+  <button type="submit" [disabled]="productForm.invalid">Edit Product</button>
+</form>

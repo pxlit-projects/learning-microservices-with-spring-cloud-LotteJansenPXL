@@ -16,5 +16,4 @@ import java.util.List;
 public class CategoryRequest {
     private Long id;
     private String name;
-    private List<Product> products;
 }

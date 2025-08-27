@@ -10,4 +10,9 @@ public class QueueConfiguration {
     public Queue myQueue() {
         return new Queue("myQueue", false);
     }
+
+    @Bean
+    public  Queue productUpdateQueue() {
+        return new Queue("productUpdateQueue", false);
+    }
 }
